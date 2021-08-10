@@ -1,0 +1,7 @@
+.element__like_status_active {
+    background-image: url(../../../../images/Union.svg);
+}
+
+.element__like_status_active:hover {
+    opacity: 1;
+}

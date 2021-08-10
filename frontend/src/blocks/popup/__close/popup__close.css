@@ -1,0 +1,39 @@
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(45deg);
+    }
+  }
+
+.popup__close {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    top: -50px;
+    right: -50px;
+    background-image: url(../../../images/Close_Icon.svg);
+    background-size: cover;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    transition: 0.4s linear;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.popup__close:hover {
+    opacity: 0.6;
+    animation: rotate 0.4s forwards;
+}
+
+@media screen and (max-width: 600px) {
+    .popup__close {
+        width: 36px;
+        height: 36px;
+        top: -50px;
+        right: 0;
+    }
+}
