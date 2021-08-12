@@ -1,4 +1,4 @@
-export const BASE_URL = "http://api.mesto-aryamnov.nomoredomains.club/";
+export const BASE_URL = "http://api.mesto-aryamnov.nomoredomains.club";
 
 const handleResponse = (response) =>
   response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`);
