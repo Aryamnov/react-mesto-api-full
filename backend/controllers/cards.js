@@ -14,7 +14,7 @@ const getCards = (req, res, next) => {
   Card.find({})
     .then((card) => {
       if (card.length === 0) throw new NotFoundError('Карточек нет');
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.message === 'Карточек нет') next(new NotFoundError('Карточек нет'));
@@ -27,7 +27,7 @@ const createCard = (req, res, next) => {
   const owner = ObjectId(req.user._id);
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       // eslint-disable-next-line no-underscore-dangle
       if (err._message === 'card validation failed') next(new BadRequestError('Переданы некорректные данные'));
@@ -44,7 +44,7 @@ const deleteCards = (req, res, next) => {
       if (!card.owner.equals(req.user._id)) throw new ForbiddenError('Нельзя удалить чужую карточку');
       Card.findByIdAndRemove(req.params.cardId)
         // eslint-disable-next-line no-shadow
-        .then((card) => res.send({ data: card }));
+        .then((card) => res.send(card));
     })
     .catch((err) => {
       if (err.message === 'Нельзя удалить чужую карточку') next(new ForbiddenError('Нельзя удалить чужую карточку'));
@@ -64,7 +64,7 @@ const likeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Карточка не найдена');
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') next(new BadRequestError('Переданы некорректные данные'));
       if (err.message === 'Карточка не найдена') next(new NotFoundError('Карточка не найдена'));
@@ -81,7 +81,7 @@ const dislikeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Карточка не найдена');
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') next(new BadRequestError('Переданы некорректные данные'));
       if (err.message === 'Карточка не найдена') next(new NotFoundError('Карточка не найдена'));

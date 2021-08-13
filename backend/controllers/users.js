@@ -36,7 +36,7 @@ const login = (req, res, next) => {
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch(() => next(new ServerError('Произошла ошибка')));
 };
 
@@ -47,7 +47,7 @@ const getUserId = (req, res, next) => {
     })
     .then((users) => users.find((user) => user.id === req.params.userId))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') next(new BadRequestError('Переданы некорректные данные'));
@@ -60,7 +60,7 @@ const getMeInfo = (req, res, next) => {
   const { _id } = req.user;
   User.findOne({ _id })
     .then((user) => {
-      if (user) res.send({ data: user });
+      if (user) res.send(user);
     })
     .catch(() => next(new ServerError('Произошла ошибка')));
 };
@@ -80,7 +80,7 @@ const newUser = (req, res, next) => {
       const { _id } = user;
       User.find({ _id })
         // eslint-disable-next-line no-shadow
-        .then((user) => res.status(201).send({ data: user }));
+        .then((user) => res.status(201).send(user));
     })
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
@@ -97,7 +97,7 @@ const patchUser = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { name, about },
     { new: true, runValidators: true, upsert: false })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       // eslint-disable-next-line no-underscore-dangle
       if (err._message === 'Validation failed') throw new BadRequestError('Переданы некорректные данные');
@@ -110,7 +110,7 @@ const patchAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { avatar },
     { new: true, runValidators: true, upsert: false })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       // eslint-disable-next-line no-underscore-dangle
       if (err._message === 'Validation failed') next(new BadRequestError('Переданы некорректные данные'));
