@@ -28,8 +28,8 @@ function App() {
       auth
         .getContent(jwt)
         .then((res) => {
-          if (res.data.email) {
-            setUserEmail(res.data.email);
+          if (res.email) {
+            setUserEmail(res.email);
             setLoggedIn(true);
             history.push("/");
           }
@@ -43,18 +43,18 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    api
-      .getAppInfo()
-      .then(([cardsArray, userData]) => {
-        setCards(cardsArray);
-        setCurrentUser(userData);
-        console.log(userData);
-        console.log(cardsArray);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (loggedIn) {
+      api
+        .getAppInfo()
+        .then(([cardsArray, userData]) => {
+          setCards(cardsArray);
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -113,12 +113,10 @@ function App() {
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i === currentUser._id);
-    console.log(card);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        console.log(newCard);
         setCards((state) => 
           state.map((c) => (c._id === card._id ? newCard : c))
         );

@@ -9,7 +9,7 @@ const ServerError = require('../errors/server-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 const RegistrationError = require('../errors/registration-err');
 
-const { JWT_SECRET = 'secret-key-dev' } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -28,7 +28,7 @@ const login = (req, res, next) => {
         throw new UnauthorizedError('Неправильные почта или пароль');
       }
       User.findOne({ email })
-        .then((user) => res.send({ token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }) }))
+        .then((user) => res.send({ token: jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key-dev', { expiresIn: '7d' }) }))
         .catch(() => next(new ServerError('Произошла ошибка')));
     })
     .catch(() => { next(new UnauthorizedError('Неправильные почта или пароль')); });

@@ -41,6 +41,11 @@ app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
 app.use('/', express.json());
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', signInValidator, login);
 app.post('/signup', signUpValidator, newUser);
 app.use(auth);
