@@ -48,6 +48,8 @@ function App() {
       .then(([cardsArray, userData]) => {
         setCards(cardsArray);
         setCurrentUser(userData);
+        console.log(userData);
+        console.log(cardsArray);
       })
       .catch((err) => {
         console.log(err);
