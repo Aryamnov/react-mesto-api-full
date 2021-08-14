@@ -3,4 +3,4 @@
   
 [Ссылка на проект](https://mesto-aryamnov.nomoredomains.club/sign-in)
 [Ссылка на API](https://api.mesto-aryamnov.nomoredomains.club/)
-Публичный IP-адрес сервера: [178.154.221.238](178.154.221.238) 
+Публичный IP-адрес сервера: [178.154.221.238](http://178.154.221.238/) 
